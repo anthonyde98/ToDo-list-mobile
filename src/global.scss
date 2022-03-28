@@ -24,3 +24,50 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+ion-icon{
+    margin-bottom: -2.5px;
+}
+
+.custom-alert-danger {
+    > div {
+      background: #a03636 !important; // if you don't use .md, .ios, .mp initially, you'd have to use !important here.
+      h2{
+        color: #fff !important;
+      }
+    }
+    .alert-message {
+      color:rgb(236, 236, 236)
+    }
+    span{
+        color: #fff !important;;
+    }
+}
+
+.custom-alert-success {
+    > div {
+      background: #36ad40 !important; // if you don't use .md, .ios, .mp initially, you'd have to use !important here.
+      color: #fff !important;
+    }
+    .alert-message {
+      color:rgb(236, 236, 236)
+    }
+    span{
+        color: #fff !important;;
+    }
+}
+
+.custom-alert-warning {
+    > div {
+      background: #da8c19 !important; // if you don't use .md, .ios, .mp initially, you'd have to use !important here.
+      h2{
+        color: #fff !important;
+      }
+    }
+    .alert-message {
+      color:rgb(236, 236, 236)
+    }
+    span{
+        color: #fff !important;;
+    }
+}

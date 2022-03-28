@@ -1,0 +1,39 @@
+.logo{
+    ion-icon{
+        background-color: var(--ion-color-dark);
+        color: var(--ion-color-primary);
+        margin-right: 5px;
+        margin-bottom: -6px !important;
+        padding: 3px;
+        border-radius: 3px;
+        font-weight: bold;
+    }
+}
+
+.user-card{
+    box-shadow: 0 2px 8px 0 rgba(73, 73, 73, 0.44);
+}
+
+.user-content{
+    display: flex;
+    margin: 0 auto;
+
+    .logo{
+        ion-icon{
+            background-color: var(--ion-color-dark-shade);
+            border-radius: 15px;
+        }
+    }
+
+    .exit-icon{
+        margin: 0 auto;
+    }
+    ion-button{
+        --ion-background-color: var(--ion-color-dark-tint);
+    }
+    ion-button:hover{
+        .exit-icon{
+            color: rgb(226, 57, 57)
+        }
+    }
+}

@@ -1,0 +1,33 @@
+<ion-content>
+   <div class="content" id="content">
+    <ion-card class="ion-text-center user">
+        <ion-card-content>
+            <ion-icon id="user" name="person" class="user-icon" color="dark"></ion-icon>
+        </ion-card-content>
+    </ion-card>
+    <ion-card class="ion-text-center form">
+      <ion-card-header>
+        <ion-card-title>Iniciar sesión</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form class="formulario" [formGroup]="usuarioForm" (ngSubmit)="iniciarSesion()">
+          <!-- USERNAME INPUT -->
+          <ion-item class="us" color="primary-shade" size="50">
+            <span><ion-icon id="email-icon" name="person" [color]="estiloInput('correo')"></ion-icon></span>
+            <ion-input id="email" type="email" placeholder="Ingresar correo" formControlName="correo" autocomplete="email" clearInput="true" autofocus="true" required></ion-input>
+          </ion-item>
+              <!-- PASSWORD INPUT -->
+          <ion-item class="ps" color="primary-shade">
+            <span><ion-icon id="pass-icon" name="key" [color]="estiloInput('contrasena')"></ion-icon></span>
+            <ion-input id="pass" type="password" placeholder="Ingresar contraseña" formControlName="contrasena" clearInput="true" required (keyup.enter)="usuarioForm.valid ? iniciarSesion() : undefined"></ion-input>
+          </ion-item>
+
+          <div class="buttons">
+            <ion-button type="submit" [disabled]="this.usuarioForm?.invalid" color="primary">Ingresar</ion-button>
+            <ion-button [disabled]="this.usuarioForm?.invalid" color="tertiary" (click)="registrarUsuario()">Regitrarse</ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+   </div>
+</ion-content>

@@ -1,0 +1,129 @@
+<ion-content (ionScroll)="setScroll($event)" [scrollEvents]="true" [fullscreen]="true">
+  <div class="container">
+    <ion-card class="add-button" *ngIf="!setForm" id="add-button">
+      <ion-button color="light" (click)="this.formAccion = false; setForm = true; tran('form');">
+        <ion-icon name="close-circle" color="success"></ion-icon>
+        Agregar tarea
+      </ion-button>
+    </ion-card>
+    <ion-card *ngIf="setForm" class="ion-text-center form" id="form">
+      <ion-card-header>
+        <div class="btn-exit">
+          <ion-icon name="close-circle" color="danger" class="exit" (click)="emptyActForm();"></ion-icon>
+        </div>
+        <ion-card-title>{{ formAccion ? 'Editar' : 'Agregar' }} tarea</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form class="formulario" [formGroup]="listForm" (ngSubmit)="setTarea()">
+          
+          <ion-item class="tt" color="primary-shade" size="50">
+            <span><ion-icon [color]="estiloInput('titulo')" name="list-circle"></ion-icon></span>
+            <ion-input type="text" placeholder="Ingresar tarea" formControlName="titulo" autocorrect="on" clearInput="true" autofocus="true" required></ion-input>
+          </ion-item>
+
+          <ion-item class="ta" color="primary-shade">
+            <span><ion-icon [color]="estiloInput('contenido')" class="content-icon" name="document-text"></ion-icon></span>
+            <ion-textarea placeholder="Ingresar contenido" formControlName="contenido" autocorrect="on" clearInput="true" required></ion-textarea>
+          </ion-item>
+
+          <ion-item class="fe" color="primary-shade">
+            <span><ion-icon [color]="estiloInput('fecha')" name="calendar"></ion-icon></span>
+            <ion-input type="datetime-local" formControlName="fecha" clearInput="true" required></ion-input>
+          </ion-item>
+
+          <div class="buttons">
+            <ion-button type="submit" [disabled]="this.listForm?.invalid" color="primary">{{ formAccion ? 'Editar' : 'Agregar' }}</ion-button>
+            <ion-button *ngIf="formAccion" [disabled]="this.listForm?.invalid" color="danger" (click)="emptyActForm()">Cancelar</ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="card-info" *ngIf="infoComponent && tareaInfo != undefined" id="card-info">
+      <ion-card-content>
+        <div class="btn-exit">
+          <ion-icon name="close-circle" color="danger" class="exit" (click)="infoComponent = false"></ion-icon>
+        </div>
+          <div class="info">
+              <ion-text class="head"><ion-icon name="list-circle"></ion-icon> Tarea</ion-text>
+              <ion-text class="text">{{ tareaInfo.titulo }}</ion-text>
+              <ion-text class="head"><ion-icon name="document-text"></ion-icon> Contenido</ion-text>
+              <ion-text class="text contenido">{{ tareaInfo.contenido }}</ion-text>
+              <ion-text class="head"><ion-icon name="calendar"></ion-icon> Fecha</ion-text>
+              <ion-text class="text">{{ tareaInfo.fecha | date:'dd/MM/yyyy, h:mm a' }}</ion-text>
+              <ion-text class="head"><ion-icon name="alert-circle"></ion-icon> Estado</ion-text>
+              <ion-text class="text">
+                  <ion-icon  name="{{ tareaInfo.estado == 'N' ? 'close-circle' : (tareaInfo.estado == 'P' ? 'time' : 'checkmark-circle') }}"
+                  [color]="tareaInfo.estado == 'N' ? 'danger' : (tareaInfo.estado == 'P' ? 'primary' : 'success')" >
+                  </ion-icon> {{ tareaInfo.estado == 'N' ? 'No realizada' : (tareaInfo.estado == 'P' ? 'En proceso' : 'Realizada') }}
+              </ion-text>
+          </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="list">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row id="row" color="light" ng-reflect-color="light" class="ion-color ion-color-light">
+            <ion-col class="num">
+              <ion-text>Núm</ion-text>
+            </ion-col>
+            <ion-col class="tar">
+              <ion-text>Tarea</ion-text>
+            </ion-col>
+            <ion-col class="fec">
+              <ion-text>Fecha</ion-text>
+            </ion-col>
+            <ion-col class="est">
+              <ion-text>Estado</ion-text>
+            </ion-col>
+            <ion-col class="acc">
+              <ion-text>Acción</ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let tarea of tareas | async ; let i = index">
+            <ion-col class="num">
+              <ion-text>{{ i + 1 }}</ion-text>
+            </ion-col>
+            <ion-col class="tar">
+              <ion-text>{{ screen ? tarea.titulo : tarea.titulo.length > 10 ? (tarea.titulo | slice:0:10) + '...' : tarea.titulo }}</ion-text>
+            </ion-col>
+            <ion-col class="fec">
+              <ion-text>{{ tarea.fecha | date:'dd/MM/yyyy, h:mm a' }}</ion-text>
+            </ion-col>
+            <ion-col class="est">
+              <ion-text>
+                <ion-icon  name="{{ tarea.estado == 'N' ? 'close-circle' : (tarea.estado == 'P' ? 'time' : 'checkmark-circle') }}"
+                  [color]="tarea.estado == 'N' ? 'danger' : (tarea.estado == 'P' ? 'primary' : 'success')" >
+                </ion-icon>
+              </ion-text>
+            </ion-col>
+            <ion-col class="acc">
+              <div class="estado">
+                  <ion-icon name="checkmark-circle" color="success" *ngIf="!(tarea.estado == 'R')" class="fad fa-check-circle text-success mx-1 btn-i" 
+                      (click)="actualizarTarea(false, 'R', tarea.id)">
+                  </ion-icon>
+                  <ion-icon name="time" color="primary" *ngIf="!(tarea.estado == 'P')" class="fad fa-dot-circle text-info mx-1 btn-i"
+                      (click)="actualizarTarea(false, 'P', tarea.id)">
+                  </ion-icon>
+                  <ion-icon name="close-circle" color="danger" *ngIf="!(tarea.estado == 'N')" class="fad fa-times-circle text-danger mx-1 btn-i"
+                      (click)="actualizarTarea(false, 'N', tarea.id)">
+                  </ion-icon>
+              </div>
+              <div class="accion">
+                  <ion-icon color="primary" name="information-circle" class="fad fa-info-square text-info mx-1 btn-i" 
+                      (click)="setInfoComponent(tarea.id, i);">
+                  </ion-icon>
+                  <ion-icon color="warning" name="create" class="fad fa-pen-square text-warning mx-1 btn-i"
+                      (click)="setActualizacionForm(tarea.id, i)">
+                  </ion-icon>
+                  <ion-icon color="danger" name="remove-circle" class="fad fa-minus-square text-danger mx-1 btn-i"
+                      (click)="eliminarTarea(tarea.id)">
+                  </ion-icon>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <btn-to-top *ngIf="scroll" [content]="content"></btn-to-top>
+</ion-content>

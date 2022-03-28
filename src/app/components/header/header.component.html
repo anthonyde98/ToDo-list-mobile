@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border">  
+  <ion-card>
+    <ion-card-content>
+      <ion-row class="ion-align-items-center">
+        <ion-title class="logo ion-text-center" (click)="usuario != null ? clicked = clicked ? false : true : return">
+            <ion-icon name="list-outline"></ion-icon>
+            <ion-label color="dark">Lista de tareas</ion-label>
+        </ion-title>
+      </ion-row>      
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="clicked" class="user-card">
+    <ion-card-content>
+      <ion-row>
+        <div class="user-content">
+            <ion-title class="logo">
+                <ion-icon name="person-circle"></ion-icon>
+                <ion-label color="dark">{{ usuario.email | split:'@' }}</ion-label>
+            </ion-title>
+            <ion-button color="light" (click)="clicked = false; cerrarSesion()">
+                <ion-icon name="exit" class="exit-icon"></ion-icon>
+            </ion-button>
+        </div>
+      </ion-row>      
+    </ion-card-content>
+  </ion-card>
+</ion-header>

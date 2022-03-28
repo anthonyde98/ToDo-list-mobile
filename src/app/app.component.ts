@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { App } from '@capacitor/app';
+import { BackButtonEvent } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor() {
+    this.backButtonHandler();
+  }
+
+  backButtonHandler(){
+    document.addEventListener('ionBackButton', (ev: BackButtonEvent) => {
+      ev.detail.register(-1, () => {
+          App.exitApp();
+      })
+    })
+  }
 }
