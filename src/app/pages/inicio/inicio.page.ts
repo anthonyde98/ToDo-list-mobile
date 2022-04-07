@@ -21,7 +21,8 @@ export class InicioPage implements OnInit {
   usuario: any;
   setForm: boolean = false;
   screen: boolean = false;
-  scroll: boolean = false
+  scroll: boolean = false;
+  accion: number = null;
 
   @ViewChild(IonContent) content: IonContent;
 
@@ -202,6 +203,7 @@ export class InicioPage implements OnInit {
 
   setScroll(event){
     this.scroll = event.detail.scrollTop > 0;
+    this.removeAccion(this.accion);
   }
 
   setToTop(){
@@ -214,4 +216,18 @@ export class InicioPage implements OnInit {
     }, 1);
   }
 
+  displayAccion(i){
+    if(document.getElementsByClassName("acc").item(i).hasAttribute("style")){
+      this.removeAccion(i);
+    }
+    else{
+      this.removeAccion(this.accion);
+      this.accion = i;
+      document.getElementsByClassName("acc").item(i).setAttribute("style", "display: block;");
+    }
+  }
+
+  removeAccion(i){
+    document.getElementsByClassName("acc").item(i).removeAttribute("style");
+  }
 }

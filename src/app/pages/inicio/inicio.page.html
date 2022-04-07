@@ -75,11 +75,8 @@
             <ion-col class="est">
               <ion-text>Estado</ion-text>
             </ion-col>
-            <ion-col class="acc">
-              <ion-text>Acción</ion-text>
-            </ion-col>
           </ion-row>
-          <ion-row *ngFor="let tarea of tareas | async ; let i = index">
+          <ion-row *ngFor="let tarea of tareas | async ; let i = index" (click)="displayAccion(i)">
             <ion-col class="num">
               <ion-text>{{ i + 1 }}</ion-text>
             </ion-col>
@@ -96,7 +93,7 @@
                 </ion-icon>
               </ion-text>
             </ion-col>
-            <ion-col class="acc">
+            <div class="acc">
               <div class="estado">
                   <ion-icon name="checkmark-circle" color="success" *ngIf="!(tarea.estado == 'R')" class="fad fa-check-circle text-success mx-1 btn-i" 
                       (click)="actualizarTarea(false, 'R', tarea.id)">
@@ -119,7 +116,7 @@
                       (click)="eliminarTarea(tarea.id)">
                   </ion-icon>
               </div>
-            </ion-col>
+            </div>
           </ion-row>
         </ion-grid>
       </ion-card-content>
