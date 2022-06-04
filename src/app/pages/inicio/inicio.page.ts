@@ -99,6 +99,7 @@ export class InicioPage implements OnInit {
       }
       else{
         this.tareaEdit = data;
+        this.tareaEdit.id = id;
         this.tareaEdit.index = i;
         this.listForm.patchValue({
           titulo: this.tareaEdit.titulo,
